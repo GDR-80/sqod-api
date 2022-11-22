@@ -1,0 +1,28 @@
+{
+  "name": "sqod-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GDR-80/sqod-api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GDR-80/sqod-api/issues"
+  },
+  "homepage": "https://github.com/GDR-80/sqod-api#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mysql2": "^2.3.3",
+    "sha256": "^0.2.0",
+    "uuid": "^9.0.0"
+  }
+}
