@@ -4,7 +4,7 @@ const queries = {
   },
 
   getUser: () => {
-    return `SELECT users.id, name, email, user_type, users.entry_date FROM users
+    return `SELECT users.id, name, phone, email, user_type, users.entry_date FROM users
               JOIN logins
                 ON users.id = logins.user_id
                   WHERE token = ?;`;
@@ -12,9 +12,9 @@ const queries = {
 
   createUser: () => {
     return `INSERT IGNORE users 
-                (name, email, phone, password, userType)
+                (name, email, phone, password)
                      VALUES
-                        (?, ?, ?, ?, ?);`;
+                        (?, ?, ?, ?);`;
   },
 
   checkCreds: () => {
@@ -40,24 +40,50 @@ const queries = {
                 `;
   },
 
-  getChildren: () => {
-    return `SELECT id, name, age, age_group, team_id, approved
-                FROM children
-                    WHERE user_id = ?`;
+  removeToken: () => {
+    return `DELETE FROM logins
+                WHERE token = ?;
+    `;
   },
 
-  getTeam: () => {
-    return `SELECT * FROM teams;
+  getChildren: () => {
+    return `SELECT id, name, age, age_group AS ageGroup, team_id, user_id, approved
+                FROM children
+                    WHERE children.user_id = ?`;
+  },
+
+  getTeams: () => {
+    return `SELECT id, name, age_group AS ageGroup, team_badge AS teamBadge, address_id, user_id FROM teams;
              
   `;
   },
 
   getUserTeams: () => {
-    return `SELECT id FROM teams
+    return `SELECT id, name, age_group AS ageGroup, team_badge AS teamBadge, address_id, user_id FROM teams
            WHERE user_id = ?;
   
   `;
   },
+
+  deleteTeam: () => {
+    return `DELETE teams
+              FROM teams
+                    WHERE teams.id = ?;`;
+  },
+
+  setApproved: () => {
+    return `UPDATE children
+              SET
+                children.approved =?
+                    WHERE children.id = ?;
+                  `;
+  },
+
+  getFixtures: () => {
+    return `SELECT id, UNIX_TIMESTAMP(meet_time) AS meetTime, UNIX_TIMESTAMP(kick_off_time) AS kickOffTime, home_team_id AS homeTeamId, away_team_id AS awayTeamId FROM fixtures;`;
+  },
+
+  /// KEEP FOR NOW
 
   // setUserType: () => {
   //   return `UPDATE users
@@ -67,26 +93,6 @@ const queries = {
   //                      AND password = ?;
   //                                   `;
   // },
-
-  getManagerProfile: () => {
-    return `SELECT users.name, users.email, users.phone, users.user_type, teams.name AS team_name, teams.age_group, teams.id AS team_id FROM users
-              JOIN teams
-                  ON teams.user_id = users.id
-                      JOIN logins
-                          ON users.id = logins.user_id
-                              WHERE token = ?;`;
-  },
-
-  getParentProfile: () => {
-    return `SELECT users.name, users.email, users.phone, users.user_type, teams.name AS team_name, teams.age_group, teams.id AS team_id, children.name AS child FROM users
-                JOIN children
-                    ON users.id = children.user_id
-                       JOIN teams
-                          ON teams.id = children.team_id
-                              JOIN logins
-                                  ON users.id = logins.user_id
-                                      WHERE token = ?;`;
-  },
 
   // ADD CHILD NOT WORKING
 
@@ -110,24 +116,3 @@ const queries = {
 };
 
 module.exports = queries;
-
-// SELECT teams.name AS homeTeam, users.name, meet_time, kick_off_time From teams
-// JOIN users
-// 	ON users.id = teams.user_id
-// 		JOIN fixtures
-// 			ON teams.id = home_team_id
-//             	WHERE user_id = 1;
-
-// SELECT userHome.name AS homeTeamManager, userAway.name AS awayTeamManager, homeTeam.name AS homeTeam, awayTeam.name AS awayTeam, fixtures.meet_time, fixtures.kick_off_time FROM fixtures
-// 	JOIN teams AS homeTeam
-//     ON homeTeam.id = fixtures.home_team_id
-//     JOIN teams AS awayTeam
-//     ON awayTeam.id = fixtures.away_team_id
-//     JOIN users AS userHome
-
-// SELECT users.name, phone, email, teams.name, fixtures.meet_time FROM users
-// 	JOIN teams
-//         ON teams.id = user_id
-//             JOIN fixtures
-//                 ON home_team_id = teams.id
-//                     Where users.id = teams.user_id;

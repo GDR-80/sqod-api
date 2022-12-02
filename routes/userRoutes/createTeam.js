@@ -19,7 +19,6 @@ router.post("/", async (req, res) => {
       userInput.postCode,
     ]
   );
-  console.log(address);
   const teams = await req.getQuery(
     `INSERT INTO teams
     (name, age_group, address_id, user_id)

@@ -16,18 +16,19 @@ app.use((req, res, next) => {
 });
 
 app.use("/createTeam", require("./routes/userRoutes/createTeam"));
+app.use("/setApproved", require("./routes/userRoutes/setApproved"));
 app.use("/syncStore", require("./routes/userRoutes/syncStore"));
 app.use("/login", require("./routes/userRoutes/logins"));
 app.use("/createUser", require("./routes/userRoutes/createUser"));
 app.use("/setUserType", require("./routes/userRoutes/setUserType"));
-
-app.use("/test", require("./routes/userRoutes/testRoute"));
+app.use("/logOut", require("./routes/userRoutes/logOut"));
+app.use("/addChild", require("./routes/userRoutes/addChild"));
+app.use("/editTeam", require("./routes/userRoutes/editTeam"));
 
 // Protected Routes
+
 app.use("/", auth, require("./routes/userRoutes/getUsers"));
-app.use("/managerProfile", auth, require("./routes/userRoutes/managerProfile"));
-app.use("/parentProfile", auth, require("./routes/userRoutes/parentProfile"));
-app.use("/addChild", auth, require("./routes/userRoutes/addChild"));
+app.use("/deleteTeam", auth, require("./routes/userRoutes/deleteTeam"));
 
 const port = process.env.PORT || 6005;
 app.listen(port, () => {
