@@ -9,27 +9,26 @@ router.post("/", async (req, res) => {
     const results = await req.getQuery(
       `INSERT INTO children
   (name, age, age_group, user_id, team_id)
-  VALUES (?,?,?,?);
+  VALUES (?,?,?,?,?);
   `,
       [
-        userInput.name,
-        userInput.age,
-        userInput.ageGroup,
+        userInput[i].name,
+        userInput[i].age,
+        userInput[i].ageGroup,
         currentUserId,
-        userInput.team,
+        userInput[i].team,
       ]
     );
-    console.log(results[i]);
   }
 
   res.send({ status: 1 });
 
   return;
 
-  // if (results.length === 0) {
-  //   res.send({ status: 0, error: "No one has been added to the database" });
-  //   return;
-  // }
+  if (results.length === 0) {
+    res.send({ status: 0, error: "No one has been added to the database" });
+    return;
+  }
 
   // res.send({ status: 1, result: results[0] });
 });

@@ -47,19 +47,19 @@ const queries = {
   },
 
   getChildren: () => {
-    return `SELECT id, name, age, age_group AS ageGroup, team_id, user_id, approved
+    return `SELECT id, name, age, age_group AS ageGroup, team_id AS teamId, user_id, approved
                 FROM children
                     WHERE children.user_id = ?`;
   },
 
   getTeams: () => {
-    return `SELECT id, name, age_group AS ageGroup, team_badge AS teamBadge, address_id, user_id FROM teams;
+    return `SELECT id, name, age_group AS ageGroup, team_badge AS teamBadge, address_id As addressId, user_id FROM teams;
              
   `;
   },
 
   getUserTeams: () => {
-    return `SELECT id, name, age_group AS ageGroup, team_badge AS teamBadge, address_id, user_id FROM teams
+    return `SELECT id, name, age_group AS ageGroup, team_badge AS teamBadge, address_id AS addressId, user_id FROM teams
            WHERE user_id = ?;
   
   `;
@@ -104,14 +104,6 @@ const queries = {
                         WHERE token = ?
                             VALUES
                                (?, ?, ?, ?, ?);`;
-  },
-
-  test: () => {
-    return `SELECT users.name, teams.name, age_group FROM users
-                JOIN teams
-                      ON users.id = teams.user_id 
-                        WHERE users.id = ?;
-                      `;
   },
 };
 

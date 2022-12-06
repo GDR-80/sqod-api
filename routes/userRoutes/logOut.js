@@ -5,6 +5,7 @@ const router = express.Router();
 router.delete("/", async (req, res) => {
   if (req.headers.token) {
     const results = await req.getQuery(removeToken(), [req.headers.token]);
+    console.log(results);
     results.affectedRows === 1
       ? res.send({ status: 1 })
       : res.send({ status: 0, error: "error while trying to delete" });

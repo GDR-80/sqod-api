@@ -13,13 +13,11 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const userData = await req.getQuery(getUser(), [req.headers.token]);
-  console.log(userData[0].userType, "<<<<<<<>>>>>>");
   if (userData[0].userType === 1) {
     const childrenData = await req.getQuery(getChildren(), [userData[0].id]);
     userData[0].children = childrenData;
-    console.log("*******", userData[0].children);
   }
-  if (userData[0].user_type === 0) {
+  if (userData[0].userType === 0) {
     const teamData = await req.getQuery(getUserTeams(), [userData[0].id]);
     const t = [];
     teamData.forEach((item) => {
@@ -29,14 +27,14 @@ router.get("/", async (req, res) => {
     userData[0].teams = t;
 
     const children = await req.getQuery(
-      `SELECT * FROM children
+      `SELECT id, name, age, age_group AS ageGroup, user_id AS userId, team_id AS teamId, approved  FROM children
       ;
     `
     );
 
     const c = [];
     children.forEach((child) => {
-      if (t.includes(child.team_id)) {
+      if (t.includes(child.teamId)) {
         c.push(child);
       }
     });
@@ -50,7 +48,7 @@ router.get("/", async (req, res) => {
   for (let i = 0; i < teams.length; i++) {
     const [address] =
       await req.getQuery(`SELECT id, line1, line2, city, postcode AS postCode FROM addresses
-                          WHERE id = ${teams[i].address_id}
+                          WHERE id = ${teams[i].addressId}
                           LIMIT 1;                                      
   `);
 

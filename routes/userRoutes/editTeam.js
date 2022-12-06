@@ -4,6 +4,7 @@ const router = express.Router();
 
 router.put("/", async (req, res) => {
   const { userInput, currentUser, teamId, addressId } = req.body;
+
   const address = await req.getQuery(
     `UPDATE addresses
         SET
