@@ -5,8 +5,6 @@ const router = express.Router();
 router.post("/", async (req, res) => {
   let { userInput, currentUserId } = req.body;
 
-  console.log(req.body);
-
   for (let i = 0; i < userInput.length; i++) {
     const results = await req.getQuery(
       `INSERT INTO children

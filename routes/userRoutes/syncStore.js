@@ -13,10 +13,11 @@ const router = express.Router();
 
 router.get("/", async (req, res) => {
   const userData = await req.getQuery(getUser(), [req.headers.token]);
-
+  console.log(userData[0].userType, "<<<<<<<>>>>>>");
   if (userData[0].userType === 1) {
     const childrenData = await req.getQuery(getChildren(), [userData[0].id]);
     userData[0].children = childrenData;
+    console.log("*******", userData[0].children);
   }
   if (userData[0].user_type === 0) {
     const teamData = await req.getQuery(getUserTeams(), [userData[0].id]);

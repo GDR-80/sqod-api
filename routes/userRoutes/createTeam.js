@@ -3,7 +3,6 @@ const { getTeam } = require("../../mySql/queries");
 const router = express.Router();
 
 router.post("/", async (req, res) => {
-  console.log(req.body.userInput);
   const { userInput, currentUser } = req.body;
   const address = await req.getQuery(
     `INSERT INTO addresses

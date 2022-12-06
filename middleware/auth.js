@@ -9,5 +9,4 @@ module.exports = auth = async (req, res, next) => {
   }
 
   res.send({ status: 0, message: "Hey! invalid token" });
-  console.log(results);
 };

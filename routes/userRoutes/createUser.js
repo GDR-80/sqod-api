@@ -4,7 +4,8 @@ const router = express.Router();
 const sha256 = require("sha256");
 
 router.post("/", async (req, res) => {
-  let { name, email, phone, password } = req.body;
+  let { name, email, phone, password } = req.body.currentUser;
+  const { user_type } = req.body;
 
   //check we have all the data
   if (name && email && password && phone) {
@@ -15,10 +16,11 @@ router.post("/", async (req, res) => {
       email,
       phone,
       password,
+      user_type,
     ]);
 
     if (result.affectedRows === 1) {
-      res.send({ status: 1 });
+      res.send({ status: 1, result });
     } else {
       res.send({ status: 0, error: "Duplicate entry" });
     }
