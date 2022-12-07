@@ -71,6 +71,21 @@ const queries = {
                     WHERE teams.id = ?;`;
   },
 
+  deleteAddress: () => {
+    return `DELETE addresses
+              FROM addresses
+                JOIN teams
+                  ON teams.address_id = addresses.id
+                    WHERE addresses.id = ?;`;
+  },
+
+  deleteFixture: () => {
+    return `DELETE fixtures
+              FROM fixtures
+                    WHERE home_team_id = ? OR away_team_id = ?
+                    ;`;
+  },
+
   setApproved: () => {
     return `UPDATE children
               SET
@@ -81,6 +96,13 @@ const queries = {
 
   getFixtures: () => {
     return `SELECT id, UNIX_TIMESTAMP(meet_time) AS meetTime, UNIX_TIMESTAMP(kick_off_time) AS kickOffTime, home_team_id AS homeTeamId, away_team_id AS awayTeamId FROM fixtures;`;
+  },
+
+  createFixture: () => {
+    return `INSERT INTO fixtures
+      (meet_time, kick_off_time, home_team_id, away_team_id)
+      VALUES (?,?,?,?)
+      `;
   },
 
   /// KEEP FOR NOW

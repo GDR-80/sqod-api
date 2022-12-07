@@ -20,6 +20,7 @@ app.use("/setApproved", require("./routes/userRoutes/setApproved"));
 app.use("/syncStore", require("./routes/userRoutes/syncStore"));
 app.use("/login", require("./routes/userRoutes/logins"));
 app.use("/createUser", require("./routes/userRoutes/createUser"));
+app.use("/createFixture", require("./routes/userRoutes/createFixture"));
 app.use("/setUserType", require("./routes/userRoutes/setUserType"));
 app.use("/logOut", require("./routes/userRoutes/logOut"));
 app.use("/addChild", require("./routes/userRoutes/addChild"));

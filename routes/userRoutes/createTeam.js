@@ -4,6 +4,8 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   const { userInput, currentUser } = req.body;
+
+  // NEEDS TEAM ID
   const address = await req.getQuery(
     `INSERT INTO addresses
   (line1, line2, city, postcode)
@@ -13,9 +15,8 @@ router.post("/", async (req, res) => {
       userInput.line1,
       userInput.line2,
       userInput.city,
-      //   userInput.county,
-      //   userInput.country,
       userInput.postCode,
+      // teams.insertId, <<<<<< can't access before it's created
     ]
   );
   const teams = await req.getQuery(
@@ -25,8 +26,6 @@ router.post("/", async (req, res) => {
     `,
     [userInput.name, userInput.ageGroup, address.insertId, currentUser]
   );
-
-  //   const newTeams = await req.getQuery(getTeam());
 
   res.send({ status: 1 });
 });
