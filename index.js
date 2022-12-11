@@ -30,6 +30,7 @@ app.use("/editTeam", require("./routes/userRoutes/editTeam"));
 
 app.use("/", auth, require("./routes/userRoutes/getUsers"));
 app.use("/deleteTeam", auth, require("./routes/userRoutes/deleteTeam"));
+app.use("/deleteFixture", auth, require("./routes/userRoutes/deleteFixture"));
 
 const port = process.env.PORT || 6005;
 app.listen(port, () => {

@@ -27,6 +27,15 @@ router.post("/", async (req, res) => {
     [userInput.name, userInput.ageGroup, address.insertId, currentUser]
   );
 
+  const addressTeamId = await req.getQuery(
+    `Update addresses
+        JOIN teams
+          ON teams.address_id = addresses.id
+            SET addresses.team_id = teams.id
+              WHERE teams.id = ?;  
+    `,
+    [teams.insertId]
+  );
   res.send({ status: 1 });
 });
 

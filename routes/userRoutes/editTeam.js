@@ -24,6 +24,7 @@ router.put("/", async (req, res) => {
       teamId,
     ]
   );
+
   const teams = await req.getQuery(
     `UPDATE teams
         SET

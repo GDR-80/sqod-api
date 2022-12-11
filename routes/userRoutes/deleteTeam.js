@@ -23,8 +23,6 @@ router.delete("/", async (req, res) => {
     return;
   }
 
-  console.log(status);
-
   res.send({ status: 0, error: "error while trying to delete" });
 });
 

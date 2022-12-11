@@ -86,6 +86,12 @@ const queries = {
                     ;`;
   },
 
+  deleteSingleFixtureById: () => {
+    return `DELETE fixtures
+                FROM fixtures
+                    WHERE fixtures.id = ?;`;
+  },
+
   setApproved: () => {
     return `UPDATE children
               SET

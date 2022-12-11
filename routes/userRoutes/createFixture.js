@@ -17,7 +17,6 @@ router.post("/", async (req, res) => {
     awayTeamId = teamId;
   }
 
-  console.log(meetTime, kickOff);
   const result = await req.getQuery(createFixture(), [
     meetTime,
     kickOff,
@@ -31,7 +30,6 @@ router.post("/", async (req, res) => {
     res.send({ status: 0, error: "Duplicate entry" });
   }
 
-  console.log(result);
   return;
 });
 
