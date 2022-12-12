@@ -7,9 +7,9 @@ router.post("/", async (req, res) => {
 
   // NEEDS TEAM ID
   const address = await req.getQuery(
-    `INSERT INTO addresses
+    `INSERT IGNORE addresses
   (line1, line2, city, postcode)
-  VALUES (?,?,?,?)
+  VALUES (?,?,?,?);
   `,
     [
       userInput.line1,
@@ -22,13 +22,13 @@ router.post("/", async (req, res) => {
   const teams = await req.getQuery(
     `INSERT INTO teams
     (name, age_group, address_id, user_id)
-    VALUES (?,?,?,?)
+    VALUES (?,?,?,?);
     `,
     [userInput.name, userInput.ageGroup, address.insertId, currentUser]
   );
 
-  const addressTeamId = await req.getQuery(
-    `Update addresses
+  await req.getQuery(
+    `UPDATE addresses
         JOIN teams
           ON teams.address_id = addresses.id
             SET addresses.team_id = teams.id

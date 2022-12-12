@@ -23,8 +23,6 @@ router.post("/", async (req, res) => {
 
   res.send({ status: 1 });
 
-  return;
-
   if (results.length === 0) {
     res.send({ status: 0, error: "No one has been added to the database" });
     return;

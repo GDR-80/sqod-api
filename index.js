@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/createTeam", require("./routes/userRoutes/createTeam"));
+// app.use("/createTeam", require("./routes/userRoutes/createTeam"));
 app.use("/setApproved", require("./routes/userRoutes/setApproved"));
 app.use("/syncStore", require("./routes/userRoutes/syncStore"));
 app.use("/login", require("./routes/userRoutes/logins"));
@@ -31,6 +31,7 @@ app.use("/editTeam", require("./routes/userRoutes/editTeam"));
 app.use("/", auth, require("./routes/userRoutes/getUsers"));
 app.use("/deleteTeam", auth, require("./routes/userRoutes/deleteTeam"));
 app.use("/deleteFixture", auth, require("./routes/userRoutes/deleteFixture"));
+app.use("/createTeam", auth, require("./routes/userRoutes/createTeam"));
 
 const port = process.env.PORT || 6005;
 app.listen(port, () => {

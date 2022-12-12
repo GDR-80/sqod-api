@@ -1,12 +1,9 @@
 const express = require("express");
 const {
-  checkCreds,
-  addToken,
   getUser,
   getChildren,
   getTeams,
   getUserTeams,
-  getUsers,
   getFixtures,
 } = require("../../mySql/queries");
 const router = express.Router();

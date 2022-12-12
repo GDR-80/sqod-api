@@ -122,16 +122,12 @@ const queries = {
   //                                   `;
   // },
 
-  // ADD CHILD NOT WORKING
+  // JUST NEEDS ADDING IN ROUTE
 
   addChild: () => {
-    return `INSERT IGNORE children
-                (name, age, age_group, user_id, team_id )
-                  JOIN logins
-                      ON users.id = logins.user_id
-                        WHERE token = ?
-                            VALUES
-                               (?, ?, ?, ?, ?);`;
+    return `INSERT INTO children
+  (name, age, age_group, user_id, team_id)
+  VALUES (?,?,?,?,?);`;
   },
 };
 
