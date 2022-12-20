@@ -19,13 +19,9 @@ router.post("/", async (req, res) => {
       user_type,
     ]);
 
-    if (result.affectedRows === 1) {
-      res.send({ status: 1, result });
-    } else {
-      res.send({ status: 0, error: "Duplicate entry" });
-    }
-
-    return;
+    result.affectedRows === 1
+      ? res.send({ status: 1 })
+      : res.send({ status: 0 });
   }
 
   res.send({ status: 0, error: "Some data missing" });

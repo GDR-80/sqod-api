@@ -24,11 +24,7 @@ router.post("/", async (req, res) => {
     awayTeamId,
   ]);
 
-  if (result.affectedRows === 1) {
-    res.send({ status: 1, result: result[0] });
-  } else {
-    res.send({ status: 0, error: "Duplicate entry" });
-  }
+  result.affectedRows === 1 ? res.send({ status: 1 }) : res.send({ status: 0 });
 
   return;
 });

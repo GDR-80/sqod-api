@@ -4,7 +4,7 @@ const router = express.Router();
 
 router.delete("/", async (req, res) => {
   const result = await req.getQuery(deleteSingleFixtureById(), [
-    req.headers.fixtureId,
+    req.headers.fixture_id,
   ]);
 
   result.affectedRows === 1 ? res.send({ status: 1 }) : res.send({ status: 0 });

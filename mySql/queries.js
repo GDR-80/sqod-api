@@ -47,9 +47,31 @@ const queries = {
   },
 
   getChildren: () => {
-    return `SELECT id, name, age, age_group AS ageGroup, team_id AS teamId, user_id, approved
+    return `SELECT id, name, age, age_group AS ageGroup, team_id AS teamId, user_id AS userId, approved
                 FROM children
                     WHERE children.user_id = ?`;
+  },
+
+  getAllChildren: () => {
+    return `SELECT id, name, age, age_group AS ageGroup, user_id AS userId, team_id AS teamId, approved  FROM children
+      ;
+   `;
+  },
+
+  createTeam: () => {
+    return `INSERT INTO teams
+    (name, age_group, address_id, user_id)
+    VALUES (?,?,?,?);
+    `;
+  },
+
+  updateTeam: () => {
+    return `UPDATE teams
+        SET
+         name = ?,
+         age_group = ?
+         WHERE address_id = ?;
+    `;
   },
 
   getTeams: () => {
@@ -60,10 +82,61 @@ const queries = {
 
   getUserTeams: () => {
     return `SELECT id, name, age_group AS ageGroup, team_badge AS teamBadge, address_id AS addressId, user_id FROM teams
-           WHERE user_id = ?;
+                WHERE user_id = ?;
   
   `;
   },
+
+  getTeamById: () => {
+    return `SELECT users.name, phone, teams.id FROM users
+                    JOIN teams
+                        ON teams.user_id = users.id
+                             WHERE teams.id = ?;
+  
+  `;
+  },
+
+  createAddress: () => {
+    return `INSERT IGNORE addresses
+                (line1, line2, city, postcode)
+                    VALUES (?,?,?,?);
+  `;
+  },
+
+  updateAddressTeamId: () => {
+    return `UPDATE addresses
+        JOIN teams
+          ON teams.address_id = addresses.id
+            SET addresses.team_id = teams.id
+              WHERE teams.id = ?;  
+    `;
+  },
+
+  updateAddress: () => {
+    return `UPDATE addresses
+        SET
+            line1 = ?,
+            line2 = ?,
+            city = ?,
+            postcode = ?
+                WHERE team_id = ?;
+  `;
+  },
+
+  getTeamAddress: () => {
+    return `SELECT id, line1, line2, city, postcode AS postCode FROM addresses
+              WHERE id = ?
+                LIMIT 1;
+           
+  `;
+  },
+
+  // getTeamAddress: () => {
+  //   `SELECT id, line1, line2, city, postcode AS postCode FROM addresses
+  //                         WHERE id = ?
+  //                         LIMIT 1;
+  // `;
+  // },
 
   deleteTeam: () => {
     return `DELETE teams
@@ -83,6 +156,13 @@ const queries = {
     return `DELETE fixtures
               FROM fixtures
                     WHERE home_team_id = ? OR away_team_id = ?
+                    ;`;
+  },
+
+  deleteChildren: () => {
+    return `DELETE children
+              FROM children
+                    WHERE team_id = ?
                     ;`;
   },
 

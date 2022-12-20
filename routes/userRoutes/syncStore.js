@@ -2,8 +2,11 @@ const express = require("express");
 const {
   getUser,
   getChildren,
+  getAllChildren,
   getTeams,
   getUserTeams,
+  getTeamById,
+  getTeamAddress,
   getFixtures,
 } = require("../../mySql/queries");
 const router = express.Router();
@@ -23,11 +26,7 @@ router.get("/", async (req, res) => {
 
     userData[0].teams = t;
 
-    const children = await req.getQuery(
-      `SELECT id, name, age, age_group AS ageGroup, user_id AS userId, team_id AS teamId, approved  FROM children
-      ;
-    `
-    );
+    const children = await req.getQuery(getAllChildren());
 
     const c = [];
     children.forEach((child) => {
@@ -43,11 +42,9 @@ router.get("/", async (req, res) => {
   const teams = await req.getQuery(getTeams());
 
   for (let i = 0; i < teams.length; i++) {
-    const [address] =
-      await req.getQuery(`SELECT id, line1, line2, city, postcode AS postCode FROM addresses
-                          WHERE id = ${teams[i].addressId}
-                          LIMIT 1;                                      
-  `);
+    const [address] = await req.getQuery(getTeamAddress(), [
+      teams[i].addressId,
+    ]);
 
     teams[i].venue = { address };
   }
@@ -55,17 +52,10 @@ router.get("/", async (req, res) => {
   const fixtures = await req.getQuery(getFixtures());
 
   for (let f = 0; f < fixtures.length; f++) {
-    const [home] =
-      await req.getQuery(`SELECT users.name, phone, teams.id FROM users
-                                        JOIN teams
-                                            ON teams.user_id = users.id
-                                          WHERE teams.id = ${fixtures[f].homeTeamId}`);
+    const [home] = await req.getQuery(getTeamById(), [fixtures[f].homeTeamId]);
 
-    const [away] =
-      await req.getQuery(`SELECT users.name, phone, teams.id FROM users
-                                        JOIN teams
-                                            ON teams.user_id = users.id
-                                              WHERE teams.id = ${fixtures[f].awayTeamId}`);
+    const [away] = await req.getQuery(getTeamById(), [fixtures[f].awayTeamId]);
+
     fixtures[f].managers = { home, away };
   }
 

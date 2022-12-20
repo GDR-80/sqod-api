@@ -1,13 +1,5 @@
 const express = require("express");
-const {
-  checkCreds,
-  addToken,
-  getUser,
-  getChildren,
-  getTeams,
-  getUserTeams,
-  getFixtures,
-} = require("../../mySql/queries");
+const { checkCreds, addToken } = require("../../mySql/queries");
 const router = express.Router();
 const sha256 = require("sha256");
 const { v4: uuid } = require("uuid");
