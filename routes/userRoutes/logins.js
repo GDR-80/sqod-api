@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
 
   const results = await req.getQuery(checkCreds(), [email, password]);
 
-  if (results.length === 1) {
+  if (results && results.length === 1) {
     const token = uuid();
     await req.getQuery(addToken(), [results[0].id, token]);
 

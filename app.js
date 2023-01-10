@@ -1,6 +1,6 @@
 const express = require("express");
 const auth = require("./middleware/auth");
-const getQuery = require("./mysql/connection");
+const getQuery = require("./mySql/connection");
 const app = express();
 const helmet = require("helmet");
 require("dotenv").config();
